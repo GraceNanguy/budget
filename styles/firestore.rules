@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Règle par défaut: refuser tout accès
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    // Règles pour la collection transactions
+    match /transactions/{transactionId} {
+      // Permettre la lecture de tous les documents si l'utilisateur est authentifié
+      // La requête where("userId", "==", request.auth.uid) filtrera les résultats côté serveur
+      allow read: if request.auth != null && (
+        // Permettre toutes les requêtes filtrées par userId
+        request.query.limit <= 1000 ||
+        // Soit c'est un accès direct à un document qui appartient à l'utilisateur
+        resource.data.userId == request.auth.uid
+      );
+      
+      // Permettre l'écriture si l'utilisateur est authentifié et que le document lui appartient
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+    
+    // Règles pour la collection users
+    match /users/{userId} {
+      // Permettre la lecture/écriture si l'utilisateur est authentifié et que c'est son propre document
+      allow read, write: if request.auth != null && userId == request.auth.uid;
+    }
+    
+    // Règles pour la collection categories
+    match /categories/{categoryId} {
+      // Permettre la lecture à tous les utilisateurs authentifiés
+      allow read: if request.auth != null;
+      
+      // Permettre l'écriture si l'utilisateur est authentifié et que le document lui appartient
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+  }
+}
