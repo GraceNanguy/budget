@@ -4,7 +4,7 @@ export interface Transaction {
   type: "expense" | "income" | "budget";
   amount: number;
   description: string;
-  category?: string | null;
+  category?: string | null | undefined;
   date: number; // Timestamp
   userId: string;
   createdAt: number;

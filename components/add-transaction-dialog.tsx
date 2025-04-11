@@ -40,7 +40,7 @@ export function AddTransactionDialog({ type, onAdd, trigger }: AddTransactionDia
   const [date, setDate] = useState<Date>(new Date());
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState<string>("");
+  const [category, setCategory] = useState<string>(""); // "" par défaut
   const [recurring, setRecurring] = useState(false);
   const [recurringPeriod, setRecurringPeriod] = useState<string>("monthly");
   const [openCategorySelect, setOpenCategorySelect] = useState(false);
@@ -81,9 +81,9 @@ export function AddTransactionDialog({ type, onAdd, trigger }: AddTransactionDia
       date,
       amount: Number.parseFloat(amount),
       description,
-      category,
+      category: category || "other", // Transforme "" en "other"
       recurring,
-      recurringPeriod: recurring ? recurringPeriod : null,
+      recurringPeriod: recurring ? recurringPeriod : undefined,
     };
 
     onAdd(data);

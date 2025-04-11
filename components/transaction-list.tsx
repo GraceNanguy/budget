@@ -49,7 +49,7 @@ export function TransactionList({ transactions, type, limit, onDelete }: Transac
     })
     .slice(0, limit || transactions.length);
 
-  const getCategoryLabel = (category?: string) => {
+  const getCategoryLabel = (category?: string | null | undefined) => {
     if (!category) return "Sans catégorie";
     const categories = {
       salary: "Salaire",
@@ -69,7 +69,7 @@ export function TransactionList({ transactions, type, limit, onDelete }: Transac
     return categories[category as keyof typeof categories] || category;
   };
 
-  const getCategoryIcon = (category?: string) => {
+  const getCategoryIcon = (category?: string | null | undefined) => {
     if (!category) return <HelpCircle className="h-4 w-4" />;
     const icons = {
       salary: <Briefcase className="h-4 w-4" />,
