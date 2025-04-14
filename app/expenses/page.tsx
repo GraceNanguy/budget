@@ -98,7 +98,7 @@ export default function ExpensesPage() {
         spent: data.spent ?? null,
         updatedAt: Date.now(),
         recurring: data.recurring ?? false,
-        recurringPeriod: data.recurring ?? data.recurringPeriod ?? null,
+        recurringPeriod: data.recurring ? data.recurringPeriod ?? "monthly" : null,
       };
       console.log("Données envoyées à Firestore (expenses):", transactionData);
       await addDoc(collection(db, "transactions"), transactionData);

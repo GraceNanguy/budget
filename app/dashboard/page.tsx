@@ -37,7 +37,17 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
 } from "recharts";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 import { useToast } from "@/components/ui/use-toast";
 import { ensureValidDate, formatAmount } from "@/lib/utils";
 
@@ -254,10 +264,10 @@ export default function DashboardPage() {
         date,
         description: data.description || "",
         category: data.category, // Peut être undefined
-        spent: data.type === "budget" ? 0 : undefined,
+        spent: data.type === "budget" ? 0 : null,
         updatedAt: Date.now(),
         recurring: data.recurring || false,
-        recurringPeriod: data.recurringPeriod,
+        recurringPeriod: data.recurring ? data.recurringPeriod ?? "monthly" : null,
       };
 
       await addDoc(collection(db, "transactions"), transactionData);

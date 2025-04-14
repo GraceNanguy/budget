@@ -113,7 +113,7 @@ export function AddTransactionDialog({ type, onAdd, trigger }: AddTransactionDia
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px]" aria-describedby="transaction-dialog-description">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>{getTitle()}</DialogTitle>

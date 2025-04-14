@@ -98,7 +98,7 @@ export default function IncomePage() {
         spent: data.spent ?? null,
         updatedAt: Date.now(),
         recurring: data.recurring ?? false,
-        recurringPeriod: data.recurring ?? data.recurringPeriod ?? null,
+        recurringPeriod: data.recurring ? data.recurringPeriod ?? "monthly" : null,
       };
       console.log("Données envoyées à Firestore (income):", transactionData);
       await addDoc(collection(db, "transactions"), transactionData);

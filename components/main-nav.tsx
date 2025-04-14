@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Menu, Bell, Wallet, User, BarChart2, DollarSign, CreditCard, FileText, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { auth } from "@/lib/firebase"
@@ -78,6 +78,7 @@ export function MainNav({ notificationCount = 0, userName = "Utilisateur" }: Mai
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-64 sm:w-72">
+            <SheetTitle className="sr-only">Menu principal</SheetTitle>
             <div className="flex flex-col gap-6 py-4">
               <div className="flex items-center gap-2 px-2">
                 <Wallet className="h-6 w-6 text-primary" />

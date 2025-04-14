@@ -19,6 +19,14 @@ import {
   Cell,
   Legend,
 } from "recharts"
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+} from "@/components/ui/chart"
 import { auth, db } from "@/lib/firebase"
 import { collection, query, where, getDocs } from "firebase/firestore"
 
@@ -357,8 +365,20 @@ export default function StatisticsPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="h-80">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart
+                    <ChartContainer
+                      config={{
+                        income: {
+                          label: "Revenus",
+                          color: "hsl(var(--chart-4))",
+                        },
+                        expenses: {
+                          label: "Dépenses",
+                          color: "hsl(var(--chart-2))",
+                        },
+                      }}
+                    >
+                      <BarChart 
+                        accessibilityLayer 
                         data={monthlyData}
                         margin={{
                           top: 20,
@@ -367,15 +387,30 @@ export default function StatisticsPage() {
                           bottom: 5,
                         }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="month" />
-                        <YAxis label={{ value: "Montant (FCFA)", angle: -90, position: "insideLeft" }} />
-                        <Tooltip formatter={(value) => formatAmount(Number(value))} />
-                        <Legend />
-                        <Bar dataKey="income" name="Revenus" fill="#4ade80" />
-                        <Bar dataKey="expenses" name="Dépenses" fill="#3b82f6" />
+                        <CartesianGrid vertical={false} />
+                        <XAxis 
+                          dataKey="month" 
+                          tickLine={false} 
+                          tickMargin={10} 
+                          axisLine={false}
+                        />
+                        <YAxis 
+                          label={{ value: "Montant (FCFA)", angle: -90, position: "insideLeft" }}
+                          tickFormatter={(value) => `${Math.floor(value / 1000)}k`}
+                        />
+                        <ChartTooltip
+                          cursor={false}
+                          content={
+                            <ChartTooltipContent 
+                              indicator="dashed" 
+                              formatter={(value) => formatAmount(Number(value))}
+                            />
+                          }
+                        />
+                        <Bar dataKey="income" fill="var(--color-income)" radius={4} />
+                        <Bar dataKey="expenses" fill="var(--color-expenses)" radius={4} />
                       </BarChart>
-                    </ResponsiveContainer>
+                    </ChartContainer>
                   </div>
                 </CardContent>
               </Card>
